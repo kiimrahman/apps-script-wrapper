@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/kattapa/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/meycookies/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/bungsu/:path*",
+      "destination": "/"
+    }
+  ]
+}
