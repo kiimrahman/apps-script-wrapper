@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Aplikasi Saya</title>
+    <title>Kiimrahman</title>
 
     <style>
         html, body {
@@ -13,12 +13,21 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background: #fff;
         }
 
         iframe {
             width: 100%;
             height: 100vh;
             border: none;
+            display: block;
+        }
+
+        #error {
+            display: none;
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            text-align: center;
         }
     </style>
 </head>
@@ -26,9 +35,60 @@
 <body>
 
     <iframe
-        src="https://script.google.com/macros/s/AKfycbzUHT_a3lr4gJOJx8m90Iio7xXli_OFWRZ3LwQompEmz-wdzkpUuITrV_OHyY1JKzBFug/exec"
+        id="app"
         allow="camera; geolocation">
     </iframe>
+
+    <div id="error">
+        <h2>Aplikasi tidak ditemukan</h2>
+        <p>URL aplikasi yang kamu buka belum terdaftar.</p>
+    </div>
+
+    <script>
+        const APPS = {
+
+            // KATTAPA
+            "/kattapa/stok":
+                "https://script.google.com/macros/s/AKfycbyvXJaxyzstD7po_0VW5kEdSSUrN3falCYYpgyLeVw7ojLZ9qYUT-EbBDU5CS4tqq21/exec",
+
+            "/kattapa/kasir":
+                "https://script.google.com/macros/s/AKfycbzwfDIstbAETPqyhLZkpIzF9QnCifBTyjxsFRNDJLKafQ9uO5z3jpAsYVJ1UJ_iFU6Iog/exec",
+
+
+            // MEYCOOKIES
+            "/meycookies/stok":
+                "https://script.google.com/macros/s/AKfycby6GuC2569Y4yjsuesH7JHmQzSDJ7q8s132Pz_Fs8w8n2USlR3p9s7bhTdY5RPcuOnJ/exec",
+
+            "/meycookies/kasir":
+                "https://script.google.com/macros/s/AKfycbwuPXVG1Gsuj_uiRvnyUQaiVXiC7mRD1x8RfLND3RDdd_keBOPQ_ZCnZYvgWcL1k81hYQ/exec",
+
+
+            // BUNGSU
+            "/bungsu/stok":
+                "https://script.google.com/macros/s/AKfycbzUHT_a3lr4gJOJx8m90Iio7xXli_OFWRZ3LwQompEmz-wdzkpUuITrV_OHyY1JKzBFug/exec",
+
+            "/bungsu/kasir":
+                "https://script.google.com/macros/s/AKfycbx8OvckLh4mWsQuBSdrL7HRIhkJivCwsmM9wn-T3i-FufruM5hVX7VYkjYoLXvQxaEk/exec"
+        };
+
+
+        // Hilangkan "/" terakhir
+        const currentPath =
+            window.location.pathname.replace(/\/$/, "") || "/";
+
+        const appUrl = APPS[currentPath];
+
+        if (appUrl && appUrl.startsWith("https://")) {
+
+            document.getElementById("app").src = appUrl;
+
+        } else {
+
+            document.getElementById("app").style.display = "none";
+            document.getElementById("error").style.display = "block";
+
+        }
+    </script>
 
 </body>
 </html>
