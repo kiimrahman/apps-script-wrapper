@@ -23,11 +23,22 @@
             display: block;
         }
 
-        #error {
+        #error, #direct {
             display: none;
             font-family: Arial, sans-serif;
             padding: 40px;
             text-align: center;
+        }
+
+        #direct a {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 14px 22px;
+            background: #0071e3;
+            color: #fff;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -38,6 +49,12 @@
         id="app"
         allow="camera; geolocation">
     </iframe>
+
+    <div id="direct">
+        <h2>Membuka aplikasi absensi...</h2>
+        <p>Jika tidak terbuka otomatis, tekan tombol di bawah.</p>
+        <a id="directLink" href="#">Buka Absensi</a>
+    </div>
 
     <div id="error">
         <h2>Aplikasi tidak ditemukan</h2>
@@ -69,11 +86,15 @@
 
             "/bungsu/kasir":
                 "https://script.google.com/macros/s/AKfycbx8OvckLh4mWsQuBSdrL7HRIhkJivCwsmM9wn-T3i-FufruM5hVX7VYkjYoLXvQxaEk/exec",
-            
+
             "/bungsu/absen":
                 "https://script.google.com/macros/s/AKfycbwUVElCR89B8tJUz0NxIPxE4zFLNsl4yVs6tRLIU6fEATvOl6iu4tqSmvst5STkEMU/exec"
         };
 
+        // Aplikasi yang dibuka langsung (tidak di dalam iframe).
+        // Halaman Apps Script menolak ditampilkan di iframe pihak ketiga,
+        // dan kamera serta GPS lebih mungkin berfungsi di halaman utama.
+        const BUKA_LANGSUNG = ["/bungsu/absen"];
 
         // Hilangkan "/" terakhir
         const currentPath =
@@ -83,7 +104,18 @@
 
         if (appUrl && appUrl.startsWith("https://")) {
 
-            document.getElementById("app").src = appUrl;
+            if (BUKA_LANGSUNG.includes(currentPath)) {
+
+                document.getElementById("app").style.display = "none";
+                document.getElementById("direct").style.display = "block";
+                document.getElementById("directLink").href = appUrl;
+                window.location.replace(appUrl);
+
+            } else {
+
+                document.getElementById("app").src = appUrl;
+
+            }
 
         } else {
 
